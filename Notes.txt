@@ -1,0 +1,12 @@
+Sockets
+
+-Connections that stay open between a client and a server
+-A form of bidirectional web communication
+-Uses the TCP protocol
+-Provides the capability for real-time communication, like a chat room
+
+To use or not to use sockets?
+    -Is real time data a requirement for your app? If yes, then use sockets!
+    -Be careful of how much data/bandwidth you're using and try to use as little data as possible, keep your data structures efficient
+    -If you do not have a real time requirement, just use polling
+        -Essentially just AJAX requests on an interval (setInterval) 

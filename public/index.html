@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body id="box">
+    <div class="menu">
+        <button class="col-md-4" onclick="console.log('clicked Lifestyle'); $('.streams').hide(); $('#stream1').show();">Keyword 1
+            <input type="text" name="keyword" placeholder="keywords">
+            <input type="submit" value="submit">
+        </button>
+        <button class="col-md-4" onclick="console.log('clicked Can'); $('.streams').hide(); $('#stream2').show();">Keyword 2
+            <input type="text" name="keyword" placeholder="keywords">
+            <input type="submit" value="submit">
+        </button>
+        <button class="col-md-4" onclick="console.log('clicked Chicken'); $('.streams').hide(); $('#stream3').show();">Keyword 3
+            <input type="text" name="keyword" placeholder="keywords">
+            <input type="submit" value="submit">
+        </button>
+    </div>
+    <br>
+    <div id="stream1" class="streams col-md-4"></div>
+    <div id="stream2" class="streams col-md-4"></div>
+    <div id="stream3" class="streams col-md-4"></div>
+</body>
+
+</html>
