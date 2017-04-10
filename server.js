@@ -5,6 +5,8 @@ var mysql = require('mysql');
 var auth = require('./auth.js');
 var io = require('socket.io');
 var nodeTweetStream = require('node-tweet-stream');
+var bodyParser = require('body-parser')
+
 // set port to run server on
 var PORT = process.env.PORT || 3000;
 // create express app object
@@ -36,6 +38,7 @@ connection.on('connection', function(connection) {
 // mount middleware
 app.use(logger('dev'));
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
 // listen for connections on port 3000
 var server = app.listen(PORT, (err) => {
@@ -57,9 +60,10 @@ var twitterStream1 = nodeTweetStream({
 //initialize a socket server
 var socketServer = io(server);
 
-app.get('/twittersearch', (req, res) => {
-    var myNewWord = req.query.word;
+app.post('/twittersearch', (req, res) => {
+    var myNewWord = req.body.searchTerm;
     myNewWord = myNewWord.toString();
+    // console.log(req.body.searchTerm);
 
     //*******************UNTRACK KEYWORD WHEN NEW WORD IS ENTERED****************************//
 
@@ -79,7 +83,7 @@ app.get('/twittersearch', (req, res) => {
                 var logit = true;
                 if (tweetData.text) {
                     socket.emit('key1', tweetData);
-                    console.log('emitting socket data!!!!!!');
+                    // console.log('emitting socket data!!!!!!');
                     var keyword = myNewWord;
                 } else {
                     var keyword = '??? ' + tweetData.text;

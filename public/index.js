@@ -55,13 +55,13 @@ twitterControl.$inject = ['$http'];
 
 function twitterControl($http) {
     var tCtrl = this;
-    // alert('Twitter controller loaded!');
 
     tCtrl.keywordSearch = function() {
         alert('Please refresh the page once.');
-        $http.get('/twittersearch?word=' + tCtrl.word)
+        $http.post('/twittersearch', {searchTerm : tCtrl.word})
             .then(function(success) {
-                console.log(tCtrl.word);
+                tCtrl.word = ' ';
+                // console.log(success.data);
                 //document.getElementById('resultWord').replace + tCtrl.word; //show word on page
                 // tCtrl.word = " ";
             }, function(error) {
