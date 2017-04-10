@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "morgan": "^1.7.0",
+    "mysql": "^2.13.0",
     "node-tweet-stream": "^2.0.1",
     "socket.io": "^1.7.2"
   }

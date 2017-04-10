@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="twitterAngular">
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+    <title>Twitter Feed</title>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -10,29 +10,53 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js"></script>
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+
     <script src="/index.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
-<body id="box">
-    <div class="menu">
-        <button class="col-md-4" onclick="console.log('clicked Lifestyle'); $('.streams').hide(); $('#stream1').show();">Keyword 1
-            <input type="text" name="keyword" placeholder="keywords">
-            <input type="submit" value="submit">
-        </button>
-        <button class="col-md-4" onclick="console.log('clicked Can'); $('.streams').hide(); $('#stream2').show();">Keyword 2
-            <input type="text" name="keyword" placeholder="keywords">
-            <input type="submit" value="submit">
-        </button>
-        <button class="col-md-4" onclick="console.log('clicked Chicken'); $('.streams').hide(); $('#stream3').show();">Keyword 3
-            <input type="text" name="keyword" placeholder="keywords">
-            <input type="submit" value="submit">
-        </button>
-    </div>
-    <br>
-    <div id="stream1" class="streams col-md-4"></div>
-    <div id="stream2" class="streams col-md-4"></div>
-    <div id="stream3" class="streams col-md-4"></div>
+<body ng-controller="twitterControl as tCtrl" id="box">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#">
+                    <img src="quantalogo.png" class="navbar-brand align-top" style="height: 60px; width: auto; display: inline-block;">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse text-center" id="bs-example-navbar-collapse-1">
+            <!-- Keyword Search FORM -->
+                <form ng-submit="tCtrl.keywordSearch()" class="navbar-form navbar" style="display: inline-block;">
+                    Keyword:
+                    <div class="form-group">
+                        <input  type="text" class="form-control" placeholder="Search" ng-model="tCtrl.word">
+                        <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+                        <input type="submit" class="btn btn-default">
+                    </div>
+                    <div id="resultWord"></div>
+                </form>
+                <div style=" display: inline-block; padding-left: 100px;">
+                    <a href="https://twitter.com/QuantaCannabis"><img src="twittericon.png" style="height: 1.5em; width: 1.5em;"></a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="datatable.html" target="_blank">Data Table</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div id="stream"></div>
 </body>
 
 </html>
