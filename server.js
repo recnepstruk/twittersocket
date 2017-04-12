@@ -5,7 +5,7 @@ var mysql = require('mysql');
 var auth = require('./auth.js');
 var io = require('socket.io');
 var nodeTweetStream = require('node-tweet-stream');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 // set port to run server on
 var PORT = process.env.PORT || 3000;
@@ -59,53 +59,71 @@ var twitterStream1 = nodeTweetStream({
 
 //initialize a socket server
 var socketServer = io(server);
+var arryOfWords = [];
 
-app.post('/twittersearch', (req, res) => {
-    var myNewWord = req.body.searchTerm;
-    myNewWord = myNewWord.toString();
-    // console.log(req.body.searchTerm);
 
-    //*******************UNTRACK KEYWORD WHEN NEW WORD IS ENTERED****************************//
+app.post('/addKeyword', (req, res) => {
+    var word2Add = req.body.word2Add;
+    // word2Add = word2Add.toString();
+    console.log(word2Add);
+    console.log(typeof(word2Add));
 
-    // tell the twitter stream to track tweets by keyword
-    twitterStream1.track(myNewWord);
+    arryOfWords.push(word2Add);
+
+    // tell the twitter stream to track the new keyword
+    twitterStream1.track(word2Add);
 
     // check for client connections
-    socketServer.on('connection', (socket, err) => {
-        if (err) {
-            console.log("Error starting socket ", err);
-        } else {
-            console.log("Started socket");
-        }
+    if (arryOfWords = 1) {
+        socketServer.on('connection', (socket, err) => {
+            if (err) {
+                console.log("Error starting socket ", err);
+            } else {
+                console.log("Started socket");
+            }
+        });
+    } else if (arryOfWords > 1) {
         // check for tweet events and send the tweet to the clients
         twitterStream1.on('tweet', (tweetData) => {
             if (tweetData.lang == 'en') {
                 var logit = true;
                 if (tweetData.text) {
                     socket.emit('key1', tweetData);
-                    // console.log('emitting socket data!!!!!!');
-                    var keyword = myNewWord;
+                    console.log('emitting socket data!!!!!!');
+                    var keyword = word2Add;
+                    var screenName = tweetData.user.screen_name;
+                    var numFollowers = tweetData.user.followers_count;
+                    var location = tweetData.user.location;
+                    // MySQL Command: 
+                    var query = 'INSERT INTO twitterInfo SET ? ON DUPLICATE KEY UPDATE ' +
+                        'numFollowers = VALUES(numFollowers), count = count + 1, lastDate = CURRENT_TIMESTAMP';
+                    var insertObj = { keyword: keyword, screenName: screenName, numFollowers: numFollowers, location: location };
+                    connection.query(query, insertObj, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('MySQL Data: ' + result);
+                        }
+                    });
                 } else {
                     var keyword = '??? ' + tweetData.text;
                     logit = false;
                 }
             }
-            var screenName = tweetData.user.screen_name;
-            var numFollowers = tweetData.user.followers_count;
-            var location = tweetData.user.location;
-            // MySQL Command: 
-            var query = 'INSERT INTO twitterInfo SET ? ON DUPLICATE KEY UPDATE ' +
-                'numFollowers = VALUES(numFollowers), count = count + 1, lastDate = CURRENT_TIMESTAMP';
-            var insertObj = { screenName: screenName, numFollowers: numFollowers, location: location };
-            connection.query(query, insertObj, function(err, result) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('MySQL Data: ' + result);
-                }
-            });
-            if (logit) 
-                console.log(keyword + ': ' + screenName + ' - ' + numFollowers + ' - ' + location);
         });
+    };
+    var postReturnData = { arryOfWords: arryOfWords };
+    res.send(postReturnData);
+});
+
+app.get('/showdata', (req, res) => {
+    connection.query('SELECT * FROM twitterInfo', function(err, rows) {
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            console.log(rows);
+            res.send(body);
+        };
     });
 });

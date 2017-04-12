@@ -48,7 +48,7 @@ var scrollPauseTimer = setInterval(function() { // The timer to reload the site 
 
 
 
-angular.module('twitterAngular', [])
+var twitterAngular = angular.module('twitterAngular', [])
     .controller('twitterControl', twitterControl);
 
 twitterControl.$inject = ['$http'];
@@ -58,40 +58,16 @@ function twitterControl($http) {
 
     tCtrl.keywordSearch = function() {
         alert('Please refresh the page once.');
-        $http.post('/twittersearch', {searchTerm : tCtrl.word})
+        $http.post('/addKeyword', { word2Add: tCtrl.word })
             .then(function(success) {
+                tCtrl.greeting = tCtrl.word;
                 tCtrl.word = ' ';
-                // console.log(success.data);
-                //document.getElementById('resultWord').replace + tCtrl.word; //show word on page
-                // tCtrl.word = " ";
             }, function(error) {
                 alert('Click to continue.', error);
             });
     };
 };
 
-// $(function() {
-//     var $word = $('#word');
-
-//     $('#searchWord').on('click', function() {
-
-//         var keyword = {
-//             word: $word.val()
-//         };
-
-//         $.ajax({
-//             type: 'POST',
-//             url: '/searchTwitter',
-//             data: keyword,
-//             success: function(data) {
-//                 document.getElementById('resultWord').append + data;
-//             },
-//             error: function() {
-//                 alert('Error searching for Keyword!!');
-//             }
-//         });
-//     });
-// });
 
 //*******************************************************************************//
 //************ When tweeter event is received, add it to the page ***************//
